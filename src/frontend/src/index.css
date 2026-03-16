@@ -1,0 +1,214 @@
+@font-face {
+  font-family: "Playfair Display";
+  src: url("/assets/fonts/PlayfairDisplay.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Deep Forest Green + Cream + Gold palette */
+    --background: 97 0.01 95;
+    --foreground: 25 0.05 160;
+    --card: 98 0.005 90;
+    --card-foreground: 25 0.05 160;
+    --popover: 98 0.005 90;
+    --popover-foreground: 25 0.05 160;
+    --primary: 35 0.12 148;
+    --primary-foreground: 98 0.005 90;
+    --secondary: 88 0.06 150;
+    --secondary-foreground: 25 0.05 160;
+    --muted: 93 0.015 110;
+    --muted-foreground: 55 0.04 160;
+    --accent: 80 0.18 85;
+    --accent-foreground: 15 0.06 30;
+    --destructive: 55 0.25 27;
+    --destructive-foreground: 98 0.005 90;
+    --border: 88 0.03 150;
+    --input: 88 0.03 150;
+    --ring: 35 0.12 148;
+    --radius: 0.75rem;
+    --chart-1: 35 0.12 148;
+    --chart-2: 80 0.18 85;
+    --chart-3: 65 0.15 160;
+    --chart-4: 75 0.12 200;
+    --chart-5: 55 0.25 27;
+    --sidebar: 97 0.01 95;
+    --sidebar-foreground: 25 0.05 160;
+    --sidebar-primary: 35 0.12 148;
+    --sidebar-primary-foreground: 98 0.005 90;
+    --sidebar-accent: 93 0.015 110;
+    --sidebar-accent-foreground: 25 0.05 160;
+    --sidebar-border: 88 0.03 150;
+    --sidebar-ring: 35 0.12 148;
+
+    /* Custom brand tokens */
+    --brand-green: oklch(35 0.12 148);
+    --brand-green-dark: oklch(25 0.1 148);
+    --brand-green-light: oklch(55 0.12 148);
+    --brand-gold: oklch(75 0.14 85);
+    --brand-gold-dark: oklch(60 0.14 85);
+    --brand-cream: oklch(97 0.015 90);
+    --brand-white: oklch(99 0 0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: "Playfair Display", serif;
+  }
+}
+
+/* Floating animation for product */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 30px 10px oklch(35 0.12 148 / 0.3), 0 0 80px 30px
+      oklch(35 0.12 148 / 0.1);
+  }
+  50% {
+    box-shadow: 0 0 50px 20px oklch(35 0.12 148 / 0.5), 0 0 120px 50px
+      oklch(35 0.12 148 / 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+  border-radius: 50%;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out forwards;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--brand-gold) 0%,
+    oklch(90 0.14 85) 50%,
+    var(--brand-gold) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+.hero-gradient {
+  background: radial-gradient(
+    ellipse at 60% 50%,
+    oklch(35 0.12 148 / 0.95) 0%,
+    oklch(25 0.1 148) 60%,
+    oklch(15 0.08 148) 100%
+  );
+}
+
+.section-alt {
+  background: oklch(97 0.015 148 / 0.5);
+}
+
+.gold-border {
+  border: 2px solid var(--brand-gold);
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px oklch(35 0.12 148 / 0.15);
+}
+
+.trust-badge {
+  background: linear-gradient(
+    135deg,
+    oklch(35 0.12 148) 0%,
+    oklch(45 0.14 148) 100%
+  );
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-green);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-green-dark);
+}
