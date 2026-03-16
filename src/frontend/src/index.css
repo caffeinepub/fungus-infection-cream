@@ -25,9 +25,9 @@
     --card-foreground: 25 0.05 160;
     --popover: 98 0.005 90;
     --popover-foreground: 25 0.05 160;
-    --primary: 35 0.12 148;
+    --primary: 38 0.22 27;
     --primary-foreground: 98 0.005 90;
-    --secondary: 88 0.06 150;
+    --secondary: 88 0.03 27;
     --secondary-foreground: 25 0.05 160;
     --muted: 93 0.015 110;
     --muted-foreground: 55 0.04 160;
@@ -37,7 +37,7 @@
     --destructive-foreground: 98 0.005 90;
     --border: 88 0.03 150;
     --input: 88 0.03 150;
-    --ring: 35 0.12 148;
+    --ring: 38 0.22 27;
     --radius: 0.75rem;
     --chart-1: 35 0.12 148;
     --chart-2: 80 0.18 85;
@@ -46,7 +46,7 @@
     --chart-5: 55 0.25 27;
     --sidebar: 97 0.01 95;
     --sidebar-foreground: 25 0.05 160;
-    --sidebar-primary: 35 0.12 148;
+    --sidebar-primary: 38 0.22 27;
     --sidebar-primary-foreground: 98 0.005 90;
     --sidebar-accent: 93 0.015 110;
     --sidebar-accent-foreground: 25 0.05 160;
@@ -54,9 +54,9 @@
     --sidebar-ring: 35 0.12 148;
 
     /* Custom brand tokens */
-    --brand-green: oklch(35 0.12 148);
-    --brand-green-dark: oklch(25 0.1 148);
-    --brand-green-light: oklch(55 0.12 148);
+    --brand-green: oklch(38 0.22 27);
+    --brand-green-dark: oklch(18 0.12 27);
+    --brand-green-light: oklch(52 0.22 27);
     --brand-gold: oklch(75 0.14 85);
     --brand-gold-dark: oklch(60 0.14 85);
     --brand-cream: oklch(97 0.015 90);
@@ -93,12 +93,12 @@
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 30px 10px oklch(35 0.12 148 / 0.3), 0 0 80px 30px
-      oklch(35 0.12 148 / 0.1);
+    box-shadow: 0 0 30px 10px oklch(38 0.22 27 / 0.3), 0 0 80px 30px
+      oklch(38 0.22 27 / 0.1);
   }
   50% {
-    box-shadow: 0 0 50px 20px oklch(35 0.12 148 / 0.5), 0 0 120px 50px
-      oklch(35 0.12 148 / 0.2);
+    box-shadow: 0 0 50px 20px oklch(38 0.22 27 / 0.5), 0 0 120px 50px
+      oklch(38 0.22 27 / 0.2);
   }
 }
 
@@ -163,14 +163,14 @@
 .hero-gradient {
   background: radial-gradient(
     ellipse at 60% 50%,
-    oklch(35 0.12 148 / 0.95) 0%,
-    oklch(25 0.1 148) 60%,
-    oklch(15 0.08 148) 100%
+    oklch(38 0.22 27 / 0.95) 0%,
+    oklch(18 0.12 27) 60%,
+    oklch(10 0.08 27) 100%
   );
 }
 
 .section-alt {
-  background: oklch(97 0.015 148 / 0.5);
+  background: oklch(97 0.01 27 / 0.5);
 }
 
 .gold-border {
@@ -183,14 +183,14 @@
 
 .card-hover:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px oklch(35 0.12 148 / 0.15);
+  box-shadow: 0 20px 40px oklch(38 0.22 27 / 0.15);
 }
 
 .trust-badge {
   background: linear-gradient(
     135deg,
-    oklch(35 0.12 148) 0%,
-    oklch(45 0.14 148) 100%
+    oklch(38 0.22 27) 0%,
+    oklch(45 0.22 27) 100%
   );
 }
 

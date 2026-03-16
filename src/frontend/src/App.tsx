@@ -100,7 +100,7 @@ const BENEFITS = [
     icon: ShieldCheck,
     title: "कोई साइड इफेक्ट नहीं",
     desc: "100% सुरक्षित फॉर्मूला, त्वचा को कोई नुकसान नहीं।",
-    color: "text-green-600",
+    color: "text-red-700",
   },
   {
     icon: FlaskConical,
@@ -158,7 +158,7 @@ const TESTIMONIALS = [
     text: "रात को खुजली इतनी होती थी कि नींद नहीं आती थी। इस क्रीम ने पहली रात से राहत दी। बहुत बहुत शुक्रिया!",
     stars: 5,
     initials: "SD",
-    color: "bg-green-100 text-green-700",
+    color: "bg-red-100 text-red-800",
   },
   {
     name: "Ajay Singh",
@@ -309,12 +309,12 @@ export default function App() {
             🔥 <span style={{ color: "#fde047" }}>सीमित समय ऑफर</span> — सिर्फ
             ₹275
           </span>
-          <span className="hidden sm:inline text-green-200">|</span>
+          <span className="hidden sm:inline text-red-200">|</span>
           <span className="hidden sm:inline flex items-center gap-1">
             🚚 <span style={{ color: "#fde047" }}>Free Delivery</span> सम्पूर्ण
             भारत में
           </span>
-          <span className="hidden sm:inline text-green-200">|</span>
+          <span className="hidden sm:inline text-red-200">|</span>
           <span className="hidden sm:inline">
             📞 <span style={{ color: "#fde047" }}>+91 70492 90924</span>
           </span>
@@ -462,7 +462,7 @@ export default function App() {
               <br />
               <span className="shimmer-text">फंगस भगाएं!</span>
             </h1>
-            <p className="text-lg md:text-xl text-green-100 leading-relaxed">
+            <p className="text-lg md:text-xl text-red-100 leading-relaxed">
               <span className="font-bold">
                 <span className="text-yellow-300">दाद</span>{" "}
                 <span className="text-white opacity-60">·</span>{" "}
@@ -478,7 +478,7 @@ export default function App() {
                 भारत की सबसे भरोसेमंद एंटीफंगल क्रीम
               </strong>
             </p>
-            <p className="text-sm text-green-200 italic">
+            <p className="text-sm text-red-200 italic">
               The most trusted anti-fungal cream for ringworm, scabies & itching
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
@@ -516,7 +516,7 @@ export default function App() {
                   >
                     {stat.num}
                   </p>
-                  <p className="text-xs text-green-200">{stat.label}</p>
+                  <p className="text-xs text-red-200">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -867,7 +867,7 @@ export default function App() {
                   >
                     {step.title}
                   </h3>
-                  <p className="text-green-200 text-sm leading-relaxed max-w-xs mx-auto">
+                  <p className="text-red-200 text-sm leading-relaxed max-w-xs mx-auto">
                     {step.desc}
                   </p>
                 </div>
@@ -997,8 +997,8 @@ export default function App() {
                     &ldquo;{t.text}&rdquo;
                   </p>
                   <div className="mt-4 pt-4 border-t border-border flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-xs text-green-600 font-medium">
+                    <CheckCircle className="w-4 h-4 text-red-500" />
+                    <span className="text-xs text-red-700 font-medium">
                       सत्यापित खरीदार
                     </span>
                   </div>
@@ -1149,7 +1149,7 @@ export default function App() {
                     >
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-green-100">Cash on Delivery उपलब्ध</p>
+                    <p className="text-red-100">Cash on Delivery उपलब्ध</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div
@@ -1158,7 +1158,7 @@ export default function App() {
                     >
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-green-100">Free Delivery सम्पूर्ण भारत में</p>
+                    <p className="text-red-100">Free Delivery सम्पूर्ण भारत में</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div
@@ -1167,7 +1167,7 @@ export default function App() {
                     >
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-green-100">7 दिन मनी बैक गारंटी</p>
+                    <p className="text-red-100">7 दिन मनी बैक गारंटी</p>
                   </div>
                 </div>
                 {/* Price */}
@@ -1178,7 +1178,7 @@ export default function App() {
                     border: "1px solid oklch(99 0 0 / 0.15)",
                   }}
                 >
-                  <p className="text-green-300 text-sm mb-1">विशेष ऑफर मूल्य</p>
+                  <p className="text-red-300 text-sm mb-1">विशेष ऑफर मूल्य</p>
                   <div className="flex items-baseline gap-3">
                     <span
                       className="font-display text-5xl font-bold"
@@ -1186,7 +1186,7 @@ export default function App() {
                     >
                       ₹275
                     </span>
-                    <span className="text-green-400 line-through text-xl">
+                    <span className="text-red-400 line-through text-xl">
                       ₹549
                     </span>
                     <Badge
@@ -1198,7 +1198,7 @@ export default function App() {
                       50% OFF
                     </Badge>
                   </div>
-                  <p className="text-xs text-green-300 mt-2">
+                  <p className="text-xs text-red-300 mt-2">
                     *30g tube, सीमित स्टॉक उपलब्ध
                   </p>
                 </div>
