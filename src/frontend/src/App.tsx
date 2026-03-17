@@ -253,6 +253,10 @@ export default function App() {
   const totalPrice = form.quantity * 275;
   const { mutate: placeOrder, isPending, isSuccess } = usePlaceOrder();
   const { data: isPhoneBlocked } = useIsPhoneBlocked(form.phone);
+  const [savedPhone, setSavedPhone] = useState<string>(() => {
+    return localStorage.getItem("fk_customer_phone") || "";
+  });
+  const { data: savedPhoneBlocked } = useIsPhoneBlocked(savedPhone);
 
   const handleOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -276,6 +280,8 @@ export default function App() {
       {
         onSuccess: () => {
           toast.success("ऑर्डर सफलतापूर्वक दर्ज हो गया! हम जल्द संपर्क करेंगे।");
+          localStorage.setItem("fk_customer_phone", form.phone);
+          setSavedPhone(form.phone);
           setForm({
             name: "",
             phone: "",
@@ -1276,6 +1282,57 @@ export default function App() {
                 >
                   📦 ऑर्डर फॉर्म
                 </h3>
+                {savedPhone && savedPhoneBlocked === true && (
+                  <div
+                    data-ocid="order.loading_state"
+                    className="mb-5 rounded-xl p-4 text-center space-y-2 border-2"
+                    style={{
+                      background: "oklch(97 0.03 80)",
+                      borderColor: "#f59e0b",
+                    }}
+                  >
+                    <div className="flex items-center justify-center gap-2 text-amber-700 font-bold text-base">
+                      <Clock className="w-5 h-5 animate-spin" />
+                      आपका ऑर्डर चल रहा है
+                    </div>
+                    <p className="text-sm text-amber-800">
+                      आपका ऑर्डर रजिस्टर हो गया है और अभी{" "}
+                      <strong>प्रोसेस हो रहा है</strong>। जब ऑर्डर डिलीवर हो जाएगा,
+                      तब आप दोबारा ऑर्डर कर पाएंगे।
+                    </p>
+                  </div>
+                )}
+                {savedPhone &&
+                  savedPhoneBlocked === false &&
+                  savedPhone.length === 10 && (
+                    <div
+                      data-ocid="order.success_state"
+                      className="mb-5 rounded-xl p-4 text-center space-y-2 border-2"
+                      style={{
+                        background: "oklch(97 0.05 148)",
+                        borderColor: "#16a34a",
+                      }}
+                    >
+                      <div className="flex items-center justify-center gap-2 text-green-700 font-bold text-base">
+                        <CheckCircle className="w-5 h-5" />
+                        अब आप नया ऑर्डर कर सकते हैं!
+                      </div>
+                      <p className="text-sm text-green-800">
+                        Admin ने आपका पिछला ऑर्डर पूरा कर दिया है। नीचे फॉर्म भरकर नया
+                        ऑर्डर करें।
+                      </p>
+                      <button
+                        type="button"
+                        className="text-xs text-green-600 underline"
+                        onClick={() => {
+                          localStorage.removeItem("fk_customer_phone");
+                          setSavedPhone("");
+                        }}
+                      >
+                        dismiss
+                      </button>
+                    </div>
+                  )}
                 {isSuccess ? (
                   <div
                     data-ocid="order.success_state"
