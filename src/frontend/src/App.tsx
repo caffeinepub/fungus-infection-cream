@@ -23,6 +23,7 @@ import {
   Menu,
   Phone,
   ShieldCheck,
+  ShoppingBasket,
   Sparkles,
   Star,
   ThumbsUp,
@@ -267,7 +268,17 @@ export default function App() {
           const msg = encodeURIComponent(
             `🛒 नया ऑर्डर आया!\n\n👤 नाम: ${form.name}\n📞 फोन: ${form.phone}\n🏠 पता: ${form.address}\n📍 पिन कोड: ${form.pinCode}\n\n💊 प्रोडक्ट: Fungus Infection वाली क्रीम\n📦 मात्रा: ${form.quantity} ट्यूब\n💰 कीमत: ₹${totalPrice}\n\n📦 जल्दी डिलीवरी करें!`,
           );
-          window.open(`https://wa.me/917049290924?text=${msg}`, "_blank");
+          const iframe = document.createElement("iframe");
+          iframe.style.display = "none";
+          iframe.style.width = "0";
+          iframe.style.height = "0";
+          iframe.src = `https://wa.me/917049290924?text=${msg}`;
+          document.body.appendChild(iframe);
+          setTimeout(() => {
+            try {
+              document.body.removeChild(iframe);
+            } catch (_e) {}
+          }, 5000);
           toast.success(
             "🎉 आपका ऑर्डर सफलतापूर्वक प्राप्त हो गया! हम जल्द ही संपर्क करेंगे।",
           );
@@ -1399,10 +1410,12 @@ export default function App() {
                       type="submit"
                       data-ocid="order.submit_button"
                       disabled={isPending}
-                      className="w-full py-4 text-base font-bold rounded-xl text-white transition-transform hover:scale-[1.02]"
+                      className="w-full py-4 text-base font-black rounded-xl transition-transform hover:scale-[1.02]"
                       style={{
-                        background: "var(--brand-green)",
+                        background: "linear-gradient(135deg, #f59e0b, #d97706)",
                         border: "none",
+                        color: "#111111",
+                        letterSpacing: "0.02em",
                       }}
                     >
                       {isPending ? (
@@ -1410,7 +1423,16 @@ export default function App() {
                           <Clock className="w-4 h-4 animate-spin" /> भेज रहे हैं...
                         </span>
                       ) : (
-                        `🛒 अभी ऑर्डर करें — ₹${totalPrice}`
+                        <span
+                          className="flex items-center gap-2 justify-center font-black"
+                          style={{ color: "#111111" }}
+                        >
+                          <ShoppingBasket
+                            className="w-5 h-5"
+                            style={{ color: "#111111" }}
+                          />
+                          अभी ऑर्डर करें — ₹{totalPrice}
+                        </span>
                       )}
                     </Button>
                     <p className="text-xs text-center text-muted-foreground">
