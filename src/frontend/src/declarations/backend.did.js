@@ -8,29 +8,81 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const Inquiry = IDL.Record({
-  'name' : IDL.Text,
-  'message' : IDL.Text,
-  'phone' : IDL.Text,
+export const UserRole = IDL.Variant({
+  'admin' : IDL.Null,
+  'user' : IDL.Null,
+  'guest' : IDL.Null,
 });
+export const Order = IDL.Record({
+  'name' : IDL.Text,
+  'address' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'quantity' : IDL.Nat,
+  'phone' : IDL.Text,
+  'pincode' : IDL.Text,
+  'totalPrice' : IDL.Nat,
+});
+export const UserProfile = IDL.Record({ 'name' : IDL.Text });
 
 export const idlService = IDL.Service({
-  'getAllInquiries' : IDL.Func([], [IDL.Vec(Inquiry)], ['query']),
-  'submitInquiry' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
+  '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'getAllOrders' : IDL.Func([], [IDL.Vec(Order)], ['query']),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getOrderCount' : IDL.Func([], [IDL.Nat], ['query']),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
+      ['query'],
+    ),
+  'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'placeOrder' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat, IDL.Nat],
+      [],
+      [],
+    ),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  const Inquiry = IDL.Record({
-    'name' : IDL.Text,
-    'message' : IDL.Text,
-    'phone' : IDL.Text,
+  const UserRole = IDL.Variant({
+    'admin' : IDL.Null,
+    'user' : IDL.Null,
+    'guest' : IDL.Null,
   });
+  const Order = IDL.Record({
+    'name' : IDL.Text,
+    'address' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'quantity' : IDL.Nat,
+    'phone' : IDL.Text,
+    'pincode' : IDL.Text,
+    'totalPrice' : IDL.Nat,
+  });
+  const UserProfile = IDL.Record({ 'name' : IDL.Text });
   
   return IDL.Service({
-    'getAllInquiries' : IDL.Func([], [IDL.Vec(Inquiry)], ['query']),
-    'submitInquiry' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
+    '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'getAllOrders' : IDL.Func([], [IDL.Vec(Order)], ['query']),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getOrderCount' : IDL.Func([], [IDL.Nat], ['query']),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
+    'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'placeOrder' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat, IDL.Nat],
+        [],
+        [],
+      ),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   });
 };
 

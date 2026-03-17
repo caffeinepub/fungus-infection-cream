@@ -1,43 +1,95 @@
 import List "mo:core/List";
-import Iter "mo:core/Iter";
-import Runtime "mo:core/Runtime";
-import Principal "mo:core/Principal";
-import Order "mo:core/Order";
-import Array "mo:core/Array";
+import Nat "mo:core/Nat";
 
-actor {
-  type Inquiry = {
+import Runtime "mo:core/Runtime";
+import Time "mo:core/Time";
+import Map "mo:core/Map";
+import Principal "mo:core/Principal";
+import Iter "mo:core/Iter";
+import Array "mo:core/Array";
+import MixinAuthorization "authorization/MixinAuthorization";
+import AccessControl "authorization/access-control";
+
+ actor {
+  // Initialize the authorization system
+  let accessControlState = AccessControl.initState();
+  include MixinAuthorization(accessControlState);
+
+  let ordersList = List.empty<Order>();
+
+  type Order = {
     name : Text;
     phone : Text;
-    message : Text;
+    address : Text;
+    pincode : Text;
+    quantity : Nat;
+    totalPrice : Nat;
+    timestamp : Int;
   };
 
-  module Inquiry {
-    public func compare(inquiry1 : Inquiry, inquiry2 : Inquiry) : Order.Order {
-      Text.compare(inquiry1.name, inquiry2.name);
+  // User profile type as required by instructions
+  public type UserProfile = {
+    name : Text;
+  };
+
+  let userProfiles = Map.empty<Principal, UserProfile>();
+
+  // Required user profile functions
+  public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can view profiles");
     };
+    userProfiles.get(caller);
   };
 
-  let inquiries = List.empty<Inquiry>();
-  let adminWhitelist = List.singleton(Principal.fromText("2vxsx-fae"));
-
-  func isAdmin(caller : Principal) : Bool {
-    adminWhitelist.values().contains(caller);
+  public query ({ caller }) func getUserProfile(user : Principal) : async ?UserProfile {
+    if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Can only view your own profile");
+    };
+    userProfiles.get(user);
   };
 
-  public shared ({ caller }) func submitInquiry(name : Text, phone : Text, message : Text) : async () {
-    let inquiry : Inquiry = {
+  public shared ({ caller }) func saveCallerUserProfile(profile : UserProfile) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can save profiles");
+    };
+    userProfiles.add(caller, profile);
+  };
+
+  // Public order placement - no authorization needed (anyone can place orders)
+  public shared ({ caller }) func placeOrder(
+    name : Text,
+    phone : Text,
+    address : Text,
+    pincode : Text,
+    quantity : Nat,
+    totalPrice : Nat,
+  ) : async () {
+    let newOrder : Order = {
       name;
       phone;
-      message;
+      address;
+      pincode;
+      quantity;
+      totalPrice;
+      timestamp = Time.now();
     };
-    inquiries.add(inquiry);
+    ordersList.add(newOrder);
   };
 
-  public query ({ caller }) func getAllInquiries() : async [Inquiry] {
-    if (not isAdmin(caller)) {
-      Runtime.trap("Access denied. Only admin users can access all inquiries.");
+  // Admin-only: View all orders
+  public query ({ caller }) func getAllOrders() : async [Order] {
+    if (not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Only admins can view all orders");
     };
-    inquiries.values().toArray().sort();
+    ordersList.values().toArray();
+  };
+
+  // Admin-only: Get order count
+  public query ({ caller }) func getOrderCount() : async Nat {
+    if (not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Only admins can get order count");
+    };
+    ordersList.size();
   };
 };

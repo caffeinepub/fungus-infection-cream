@@ -1,3 +1,4 @@
+import { AdminPanel } from "@/components/AdminPanel";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { useSubmitInquiry } from "@/hooks/useQueries";
+import { usePlaceOrder } from "@/hooks/useQueries";
 import {
   Award,
   CheckCircle,
@@ -241,6 +242,7 @@ function AnimatedSection({
 export default function App() {
   const scrolled = useScrolled();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [view, setView] = useState<"main" | "admin">("main");
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -249,7 +251,7 @@ export default function App() {
     quantity: 1,
   });
   const totalPrice = form.quantity * 275;
-  const { mutate: submitInquiry, isPending, isSuccess } = useSubmitInquiry();
+  const { mutate: placeOrder, isPending, isSuccess } = usePlaceOrder();
 
   const handleOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -257,31 +259,22 @@ export default function App() {
       toast.error("कृपया नाम और फोन नंबर भरें।");
       return;
     }
-    submitInquiry(
+    if (form.pinCode.length !== 6) {
+      toast.error("कृपया 6 अंकों का PIN कोड भरें।");
+      return;
+    }
+    placeOrder(
       {
         name: form.name,
         phone: form.phone,
-        message: `Address: ${form.address}, PIN: ${form.pinCode}, Qty: ${form.quantity}`,
+        address: form.address,
+        pincode: form.pinCode,
+        quantity: BigInt(form.quantity),
+        totalPrice: BigInt(totalPrice),
       },
       {
         onSuccess: () => {
-          const msg = encodeURIComponent(
-            `🛒 नया ऑर्डर आया!\n\n👤 नाम: ${form.name}\n📞 फोन: ${form.phone}\n🏠 पता: ${form.address}\n📍 पिन कोड: ${form.pinCode}\n\n💊 प्रोडक्ट: Fungus Infection वाली क्रीम\n📦 मात्रा: ${form.quantity} ट्यूब\n💰 कीमत: ₹${totalPrice}\n\n📦 जल्दी डिलीवरी करें!`,
-          );
-          const iframe = document.createElement("iframe");
-          iframe.style.display = "none";
-          iframe.style.width = "0";
-          iframe.style.height = "0";
-          iframe.src = `https://wa.me/917049290924?text=${msg}`;
-          document.body.appendChild(iframe);
-          setTimeout(() => {
-            try {
-              document.body.removeChild(iframe);
-            } catch (_e) {}
-          }, 5000);
-          toast.success(
-            "🎉 आपका ऑर्डर सफलतापूर्वक प्राप्त हो गया! हम जल्द ही संपर्क करेंगे।",
-          );
+          toast.success("ऑर्डर सफलतापूर्वक दर्ज हो गया! हम जल्द संपर्क करेंगे।");
           setForm({
             name: "",
             phone: "",
@@ -302,6 +295,15 @@ export default function App() {
     { label: "समीक्षाएं", href: "#reviews" },
     { label: "संपर्क", href: "#contact" },
   ];
+
+  if (view === "admin") {
+    return (
+      <>
+        <Toaster richColors position="top-center" />
+        <AdminPanel onBack={() => setView("main")} />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen font-body bg-background">
@@ -1539,17 +1541,27 @@ export default function App() {
               © {new Date().getFullYear()} Fungus Infection Cream. All rights
               reserved.
             </p>
-            <p className="text-xs text-muted-foreground">
-              Built with ❤️ using{" "}
-              <a
-                href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-primary"
+            <div className="flex items-center gap-4">
+              <p className="text-xs text-muted-foreground">
+                Built with ❤️ using{" "}
+                <a
+                  href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-primary"
+                >
+                  caffeine.ai
+                </a>
+              </p>
+              <button
+                type="button"
+                onClick={() => setView("admin")}
+                className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                data-ocid="admin.link"
               >
-                caffeine.ai
-              </a>
-            </p>
+                Admin
+              </button>
+            </div>
           </div>
         </div>
       </footer>
