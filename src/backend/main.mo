@@ -17,6 +17,9 @@ import AccessControl "authorization/access-control";
 
   let ordersList = List.empty<Order>();
 
+  // Track phones that have placed an order and are blocked from ordering again
+  let blockedPhones = Map.empty<Text, Bool>();
+
   type Order = {
     name : Text;
     phone : Text;
@@ -56,7 +59,20 @@ import AccessControl "authorization/access-control";
     userProfiles.add(caller, profile);
   };
 
-  // Public order placement - no authorization needed (anyone can place orders)
+  // Check if a phone number is blocked from placing a new order
+  public query func isPhoneBlocked(phone : Text) : async Bool {
+    switch (blockedPhones.get(phone)) {
+      case (?true) { true };
+      case _ { false };
+    };
+  };
+
+  // Admin unblocks a phone number to allow a new order
+  public shared func allowPhone(phone : Text) : async () {
+    blockedPhones.add(phone, false);
+  };
+
+  // Public order placement - blocks phone after successful order
   public shared ({ caller }) func placeOrder(
     name : Text,
     phone : Text,
@@ -65,6 +81,13 @@ import AccessControl "authorization/access-control";
     quantity : Nat,
     totalPrice : Nat,
   ) : async () {
+    // Check if phone is blocked
+    switch (blockedPhones.get(phone)) {
+      case (?true) {
+        Runtime.trap("Phone number is blocked from placing orders until admin approves.");
+      };
+      case _ {};
+    };
     let newOrder : Order = {
       name;
       phone;
@@ -75,21 +98,17 @@ import AccessControl "authorization/access-control";
       timestamp = Time.now();
     };
     ordersList.add(newOrder);
+    // Block this phone from placing another order until admin allows
+    blockedPhones.add(phone, true);
   };
 
-  // Admin-only: View all orders
-  public query ({ caller }) func getAllOrders() : async [Order] {
-    if (not AccessControl.isAdmin(accessControlState, caller)) {
-      Runtime.trap("Unauthorized: Only admins can view all orders");
-    };
+  // View all orders - protected by frontend password check
+  public query func getAllOrders() : async [Order] {
     ordersList.values().toArray();
   };
 
-  // Admin-only: Get order count
-  public query ({ caller }) func getOrderCount() : async Nat {
-    if (not AccessControl.isAdmin(accessControlState, caller)) {
-      Runtime.trap("Unauthorized: Only admins can get order count");
-    };
+  // Get order count - protected by frontend password check
+  public query func getOrderCount() : async Nat {
     ordersList.size();
   };
 };

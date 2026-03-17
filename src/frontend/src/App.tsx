@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { usePlaceOrder } from "@/hooks/useQueries";
+import { useIsPhoneBlocked, usePlaceOrder } from "@/hooks/useQueries";
 import {
   Award,
   CheckCircle,
@@ -252,6 +252,7 @@ export default function App() {
   });
   const totalPrice = form.quantity * 275;
   const { mutate: placeOrder, isPending, isSuccess } = usePlaceOrder();
+  const { data: isPhoneBlocked } = useIsPhoneBlocked(form.phone);
 
   const handleOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -345,7 +346,7 @@ export default function App() {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
-              src="/assets/generated/fungus-cream-logo-transparent.dim_400x400.png"
+              src="/assets/generated/fungus-killer-logo.dim_300x300.png"
               alt="Fungus Infection Cream Logo"
               className="w-10 h-10 rounded-full object-cover"
             />
@@ -542,7 +543,7 @@ export default function App() {
               style={{ background: "oklch(55 0.12 148 / 0.15)" }}
             />
             <img
-              src="/assets/generated/cream-tube-product.dim_600x500.png"
+              src="/assets/generated/fungus-killer-product-new.dim_600x700.png"
               alt="Fungus Infection Cream Product"
               className="animate-float relative z-10 w-64 md:w-80 drop-shadow-2xl"
             />
@@ -728,7 +729,7 @@ export default function App() {
                   style={{ background: "oklch(35 0.12 148 / 0.08)" }}
                 />
                 <img
-                  src="/assets/generated/cream-tube-product.dim_600x500.png"
+                  src="/assets/generated/fungus-killer-product-new.dim_600x700.png"
                   alt="Fungus Infection Cream"
                   className="animate-float w-48 md:w-56 relative z-10 drop-shadow-2xl"
                 />
@@ -922,35 +923,83 @@ export default function App() {
                 style={{ borderColor: "var(--brand-gold)" }}
               >
                 <img
-                  src="/assets/generated/before-after-skin.dim_800x400.jpg"
-                  alt="Before and After using Fungus Infection Cream"
+                  src="/assets/generated/before-after-result.dim_800x450.jpg"
+                  alt="Before and After using Fungus Killer Cream"
                   className="w-full object-cover"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4 mt-6 text-center">
+              <div className="grid grid-cols-2 gap-6 mt-6">
                 <div
-                  className="p-4 rounded-xl"
-                  style={{ background: "oklch(60 0.2 27 / 0.08)" }}
+                  className="p-5 rounded-2xl border-2 border-red-200"
+                  style={{ background: "oklch(97 0.02 27)" }}
                 >
-                  <p className="font-bold text-red-700">पहले (Before)</p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    लाल, खुजलीदार त्वचा
+                  <p className="font-bold text-red-700 text-lg mb-3 text-center">
+                    ❌ पहले (Before)
                   </p>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">●</span>
+                      <span>दाद के लाल गोल धब्बे</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">●</span>
+                      <span>तेज़ खुजली और जलन</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">●</span>
+                      <span>खाज के काले निशान</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">●</span>
+                      <span>त्वचा में सूजन व रूखापन</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">●</span>
+                      <span>फंगल इन्फेक्शन फैलता रहता था</span>
+                    </li>
+                  </ul>
                 </div>
                 <div
-                  className="p-4 rounded-xl"
-                  style={{ background: "oklch(55 0.12 148 / 0.08)" }}
+                  className="p-5 rounded-2xl border-2 border-green-200"
+                  style={{ background: "oklch(97 0.02 148)" }}
                 >
-                  <p
-                    className="font-bold"
-                    style={{ color: "var(--brand-green)" }}
-                  >
-                    बाद में (After)
+                  <p className="font-bold text-green-700 text-lg mb-3 text-center">
+                    ✅ बाद में (After)
                   </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    स्वस्थ, साफ त्वचा
-                  </p>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-0.5">●</span>
+                      <span>दाद के धब्बे पूरी तरह गायब</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-0.5">●</span>
+                      <span>खुजली और जलन से राहत</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-0.5">●</span>
+                      <span>त्वचा साफ और चमकदार</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-0.5">●</span>
+                      <span>नई, स्वस्थ त्वचा वापस आई</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-0.5">●</span>
+                      <span>इन्फेक्शन जड़ से खत्म</span>
+                    </li>
+                  </ul>
                 </div>
+              </div>
+              <div
+                className="mt-4 text-center p-3 rounded-xl"
+                style={{
+                  background: "oklch(85 0.15 85 / 0.2)",
+                  border: "1px solid oklch(75 0.15 85)",
+                }}
+              >
+                <p className="font-bold text-amber-800">
+                  ⏱️ सिर्फ 7 दिनों में दिखने लगता है फर्क!
+                </p>
               </div>
             </div>
           </AnimatedSection>
@@ -1293,6 +1342,15 @@ export default function App() {
                         className="rounded-xl border-border"
                         required
                       />
+                      {isPhoneBlocked && form.phone.length === 10 && (
+                        <p
+                          className="text-red-600 text-sm mt-1.5 font-medium"
+                          data-ocid="order.error_state"
+                        >
+                          ⚠️ आपका एक ऑर्डर पहले से है। Admin की अनुमति के बाद ही नया
+                          ऑर्डर कर सकते हैं।
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label
@@ -1411,7 +1469,7 @@ export default function App() {
                     <Button
                       type="submit"
                       data-ocid="order.submit_button"
-                      disabled={isPending}
+                      disabled={isPending || !!isPhoneBlocked}
                       className="w-full py-4 text-base font-black rounded-xl transition-transform hover:scale-[1.02]"
                       style={{
                         background: "linear-gradient(135deg, #f59e0b, #d97706)",
@@ -1459,7 +1517,7 @@ export default function App() {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <img
-                  src="/assets/generated/fungus-cream-logo-transparent.dim_400x400.png"
+                  src="/assets/generated/fungus-killer-logo.dim_300x300.png"
                   alt="Logo"
                   className="w-12 h-12 rounded-full object-cover"
                 />

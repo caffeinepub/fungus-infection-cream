@@ -32,6 +32,8 @@ export interface backendInterface {
     getOrderCount(): Promise<bigint>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
+    isPhoneBlocked(phone: string): Promise<boolean>;
+    allowPhone(phone: string): Promise<void>;
     placeOrder(name: string, phone: string, address: string, pincode: string, quantity: bigint, totalPrice: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
 }

@@ -72,3 +72,30 @@ export function useIsAdmin() {
     enabled: !!actor && !isFetching,
   });
 }
+
+export function useIsPhoneBlocked(phone: string) {
+  const { actor, isFetching } = useActor();
+  return useQuery({
+    queryKey: ["isPhoneBlocked", phone],
+    queryFn: async () => {
+      if (!actor) return false;
+      return (actor as any).isPhoneBlocked(phone);
+    },
+    enabled: !!actor && !isFetching && phone.length === 10,
+  });
+}
+
+export function useAllowPhone() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (phone: string) => {
+      if (!actor) throw new Error("Not connected");
+      return (actor as any).allowPhone(phone);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["isPhoneBlocked"] });
+    },
+  });
+}

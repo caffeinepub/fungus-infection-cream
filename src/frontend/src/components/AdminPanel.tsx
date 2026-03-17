@@ -11,9 +11,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetAllOrders, useGetOrderCount } from "@/hooks/useQueries";
+import {
+  useAllowPhone,
+  useGetAllOrders,
+  useGetOrderCount,
+} from "@/hooks/useQueries";
 import {
   ArrowLeft,
+  CheckCircle,
   Eye,
   EyeOff,
   Lock,
@@ -23,6 +28,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const ADMIN_PASSWORD = "741571";
 
@@ -50,6 +56,7 @@ export function AdminPanel({ onBack }: AdminPanelProps) {
 
   const { data: orders, isLoading: ordersLoading } = useGetAllOrders();
   const { data: orderCount } = useGetOrderCount();
+  const { mutate: allowPhone } = useAllowPhone();
 
   function handleLogin() {
     if (password === ADMIN_PASSWORD) {
@@ -64,6 +71,17 @@ export function AdminPanel({ onBack }: AdminPanelProps) {
     setIsAuthenticated(false);
     setPassword("");
     setError("");
+  }
+
+  function handleAllowPhone(phone: string) {
+    allowPhone(phone, {
+      onSuccess: () => {
+        toast.success("ऑर्डर allow कर दिया गया!");
+      },
+      onError: () => {
+        toast.error("कुछ गलत हुआ, दोबारा कोशिश करें।");
+      },
+    });
   }
 
   if (!isAuthenticated) {
@@ -307,6 +325,9 @@ export function AdminPanel({ onBack }: AdminPanelProps) {
                       <TableHead className="font-semibold text-gray-700">
                         समय
                       </TableHead>
+                      <TableHead className="font-semibold text-gray-700">
+                        एक्शन
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -349,6 +370,18 @@ export function AdminPanel({ onBack }: AdminPanelProps) {
                           </TableCell>
                           <TableCell className="text-xs text-gray-400 whitespace-nowrap">
                             {formatTimestamp(order.timestamp)}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="text-green-700 border-green-300 hover:bg-green-50 hover:text-green-800 text-xs gap-1"
+                              onClick={() => handleAllowPhone(order.phone)}
+                              data-ocid={`admin.allow_button.${idx + 1}`}
+                            >
+                              <CheckCircle className="w-3.5 h-3.5" />
+                              अनुमति दें
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}
