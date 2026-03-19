@@ -1,37 +1,28 @@
 # Fungus Infection Cream
 
 ## Current State
-- Full promotional website with hero, benefits, testimonials, FAQ, order form, before/after section
-- Backend stores orders, blocks phone after order, admin can allow reorder
-- Telegram notifications on new orders (hardcoded bot token)
-- Admin panel with password protection (741571)
-- Order flow: fill form → submit → order placed (no payment required)
-- Colored text scattered throughout but not consistently bold
-- Photos displayed but some may have sizing issues
+Full-stack promotional website for Fungus Killer Cream with order management, admin panel (password: 741571), Telegram notifications, customer order blocking, and before/after results section.
 
 ## Requested Changes (Diff)
 
 ### Add
-- ₹5 Stripe payment step before order is confirmed: user fills form → pays ₹5 → payment success → order is registered in backend
-- Backend: createPaymentIntent(amount: 500 paise = ₹5) function using Stripe component
-- Backend: placeOrderAfterPayment function that verifies payment before registering order
+- Logo splash/loading screen that shows on every page load with animated logo and loading indicator
+- PWA (Progressive Web App) support: manifest.json, service worker, installable app meta tags so users can add website to home screen like a native app
+- Auto-refresh polling every 5 seconds in admin panel so new orders appear immediately without manual refresh
+- Notification badge/indicator in admin panel showing new orders count
 
 ### Modify
-- Order form flow: after form submit, show payment step (₹5 via Stripe), then on success place order
-- All colored/highlighted text across website: add font-bold/font-extrabold for readability
-- All product images: ensure proper w-full, object-cover, max-h with overflow-hidden wrappers so they display correctly
-- Hero section: दाद/खाज/खुजली/फंगल color-coded words → bold
-- Announcement strip colored words → bold
-- Admin panel: repeat order already requires admin allow (no change needed)
+- `useGetAllOrders` hook: add `refetchInterval: 5000` so admin sees orders in real-time
+- `index.html`: add PWA meta tags (theme-color, apple-touch-icon, manifest link)
+- `App.tsx`: wrap with SplashScreen component that shows logo + spinner for ~2 seconds on load
 
 ### Remove
 - Nothing removed
 
 ## Implementation Plan
-1. Update backend main.mo: add createStripePaymentIntent for ₹5 (500 paise), add placeOrderWithPayment that accepts paymentIntentId
-2. Update App.tsx frontend:
-   - After form validation, show Stripe payment modal (₹5 booking amount)
-   - On payment success, call placeOrder with order details
-   - Make all colored text bold (font-bold or font-extrabold) throughout
-   - Fix all img tags: add proper className for sizing, object-cover, ensure src paths are correct
-3. Validate and deploy
+1. Add `SplashScreen` component with Fungus Killer logo animation and loading spinner (2-3 second display)
+2. Update `useGetAllOrders` with `refetchInterval: 5000` for real-time admin updates
+3. Create `public/manifest.json` with app name, icons, theme colors for PWA
+4. Create `public/sw.js` service worker for PWA caching
+5. Update `index.html` with full PWA meta tags
+6. Integrate SplashScreen in App.tsx with useState for loading state

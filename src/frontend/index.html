@@ -1,11 +1,26 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="hi">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Fungus Killer Cream - दाद खाज खुजली की दवा</title>
+    <meta name="description" content="दाद, खाज, खुजली, फंगल इन्फेक्शन की सबसे असरदार क्रीम। ₹275 में घर बैठे मंगाएं।" />
+    <meta name="theme-color" content="#065f46" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Fungus Killer" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/assets/generated/fungus-killer-logo.dim_300x300.png" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
   </body>
 </html>

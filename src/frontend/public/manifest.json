@@ -1,0 +1,17 @@
+{
+  "name": "Fungus Killer Cream - फंगस किलर क्रीम",
+  "short_name": "Fungus Killer",
+  "description": "दाद, खाज, खुजली, फंगल इन्फेक्शन की सबसे असरदार क्रीम",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#065f46",
+  "theme_color": "#065f46",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/generated/fungus-killer-logo.dim_300x300.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    }
+  ]
+}

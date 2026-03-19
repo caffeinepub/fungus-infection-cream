@@ -46,6 +46,7 @@ export function useGetAllOrders() {
       return actor.getAllOrders();
     },
     enabled: !!actor && !isFetching,
+    refetchInterval: 5000,
   });
 }
 
