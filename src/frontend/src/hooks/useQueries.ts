@@ -99,3 +99,29 @@ export function useAllowPhone() {
     },
   });
 }
+
+export function useGetWhatsAppApiKeySet() {
+  const { actor, isFetching } = useActor();
+  return useQuery({
+    queryKey: ["whatsappApiKeySet"],
+    queryFn: async () => {
+      if (!actor) return false;
+      return (actor as any).getWhatsAppApiKeySet();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useSetWhatsAppApiKey() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (key: string) => {
+      if (!actor) throw new Error("Not connected");
+      return (actor as any).setWhatsAppApiKey(key);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["whatsappApiKeySet"] });
+    },
+  });
+}

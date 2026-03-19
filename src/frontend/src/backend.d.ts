@@ -36,4 +36,6 @@ export interface backendInterface {
     allowPhone(phone: string): Promise<void>;
     placeOrder(name: string, phone: string, address: string, pincode: string, quantity: bigint, totalPrice: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    setWhatsAppApiKey(key: string): Promise<void>;
+    getWhatsAppApiKeySet(): Promise<boolean>;
 }

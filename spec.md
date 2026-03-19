@@ -1,29 +1,37 @@
 # Fungus Infection Cream
 
 ## Current State
-Customers can place orders freely. Admin panel shows orders with password protection. No restriction on repeat orders.
+- Full promotional website with hero, benefits, testimonials, FAQ, order form, before/after section
+- Backend stores orders, blocks phone after order, admin can allow reorder
+- Telegram notifications on new orders (hardcoded bot token)
+- Admin panel with password protection (741571)
+- Order flow: fill form → submit → order placed (no payment required)
+- Colored text scattered throughout but not consistently bold
+- Photos displayed but some may have sizing issues
 
 ## Requested Changes (Diff)
 
 ### Add
-- Backend: `blockedPhones` map to track phone numbers that have placed an order and are blocked from ordering again.
-- Backend: `isPhoneBlocked(phone: Text)` public query — returns true if phone is blocked.
-- Backend: `allowPhone(phone: Text)` public function — admin unblocks a phone (no auth required, called from admin panel after password check).
-- Frontend (order form): Before submitting, check `isPhoneBlocked` with entered phone. If blocked, show message: "आपका एक ऑर्डर पहले से है। Admin की अनुमति के बाद ही नया ऑर्डर कर सकते हैं।" and disable submit.
-- Frontend (admin panel): Each order row gets an "Allow" button. Clicking it calls `allowPhone` for that order's phone, allowing the customer to place a new order.
+- ₹5 Stripe payment step before order is confirmed: user fills form → pays ₹5 → payment success → order is registered in backend
+- Backend: createPaymentIntent(amount: 500 paise = ₹5) function using Stripe component
+- Backend: placeOrderAfterPayment function that verifies payment before registering order
 
 ### Modify
-- Backend `placeOrder`: After saving order, add phone to `blockedPhones`.
-- Admin panel: Add "अनुमति दें" (Allow) button per row.
+- Order form flow: after form submit, show payment step (₹5 via Stripe), then on success place order
+- All colored/highlighted text across website: add font-bold/font-extrabold for readability
+- All product images: ensure proper w-full, object-cover, max-h with overflow-hidden wrappers so they display correctly
+- Hero section: दाद/खाज/खुजली/फंगल color-coded words → bold
+- Announcement strip colored words → bold
+- Admin panel: repeat order already requires admin allow (no change needed)
 
 ### Remove
-- Nothing removed.
+- Nothing removed
 
 ## Implementation Plan
-1. Add `blockedPhones` map and helper functions to main.mo.
-2. Modify `placeOrder` to block phone after order.
-3. Add `isPhoneBlocked` query and `allowPhone` update function.
-4. Add `isPhoneBlocked` and `allowPhone` to backend.d.ts.
-5. Add `useIsPhoneBlocked` query hook and `useAllowPhone` mutation hook.
-6. Update order form to check phone block status before allowing submit.
-7. Update AdminPanel to show Allow button per row with confirmation feedback.
+1. Update backend main.mo: add createStripePaymentIntent for ₹5 (500 paise), add placeOrderWithPayment that accepts paymentIntentId
+2. Update App.tsx frontend:
+   - After form validation, show Stripe payment modal (₹5 booking amount)
+   - On payment success, call placeOrder with order details
+   - Make all colored text bold (font-bold or font-extrabold) throughout
+   - Fix all img tags: add proper className for sizing, object-cover, ensure src paths are correct
+3. Validate and deploy

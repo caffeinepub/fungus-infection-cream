@@ -326,17 +326,26 @@ export default function App() {
       >
         <div className="flex items-center justify-center gap-6 py-2 px-4 text-white text-xs font-bold tracking-wide whitespace-nowrap">
           <span className="flex items-center gap-1">
-            🔥 <span style={{ color: "#fde047" }}>सीमित समय ऑफर</span> — सिर्फ
-            ₹275
+            🔥{" "}
+            <span style={{ color: "#fde047" }} className="font-extrabold">
+              सीमित समय ऑफर
+            </span>{" "}
+            — सिर्फ ₹275
           </span>
           <span className="hidden sm:inline text-red-200">|</span>
           <span className="hidden sm:inline flex items-center gap-1">
-            🚚 <span style={{ color: "#fde047" }}>Free Delivery</span> सम्पूर्ण
-            भारत में
+            🚚{" "}
+            <span style={{ color: "#fde047" }} className="font-extrabold">
+              Free Delivery
+            </span>{" "}
+            सम्पूर्ण भारत में
           </span>
           <span className="hidden sm:inline text-red-200">|</span>
           <span className="hidden sm:inline">
-            📞 <span style={{ color: "#fde047" }}>+91 70492 90924</span>
+            📞{" "}
+            <span style={{ color: "#fde047" }} className="font-extrabold">
+              +91 70492 90924
+            </span>
           </span>
         </div>
       </div>
@@ -355,6 +364,9 @@ export default function App() {
               src="/assets/generated/fungus-killer-logo.dim_300x300.png"
               alt="Fungus Infection Cream Logo"
               className="w-10 h-10 rounded-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
             />
             <div>
               <p
@@ -480,17 +492,17 @@ export default function App() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               एक बार लगाएं,
               <br />
-              <span className="shimmer-text">फंगस भगाएं!</span>
+              <span className="shimmer-text font-extrabold">फंगस भगाएं!</span>
             </h1>
             <p className="text-lg md:text-xl text-red-100 leading-relaxed">
               <span className="font-bold">
-                <span className="text-yellow-300">दाद</span>{" "}
+                <span className="text-yellow-300 font-extrabold">दाद</span>{" "}
                 <span className="text-white opacity-60">·</span>{" "}
-                <span className="text-orange-300">खाज</span>{" "}
+                <span className="text-orange-300 font-extrabold">खाज</span>{" "}
                 <span className="text-white opacity-60">·</span>{" "}
-                <span className="text-pink-300">खुजली</span>{" "}
+                <span className="text-pink-300 font-extrabold">खुजली</span>{" "}
                 <span className="text-white opacity-60">·</span>{" "}
-                <span className="text-cyan-300">फंगल इन्फेक्शन</span>{" "}
+                <span className="text-cyan-300 font-extrabold">फंगल इन्फेक्शन</span>{" "}
                 <span className="text-white">के लिए</span>
               </span>
               <br />
@@ -551,7 +563,7 @@ export default function App() {
             <img
               src="/assets/generated/fungus-killer-product-new.dim_600x700.png"
               alt="Fungus Infection Cream Product"
-              className="animate-float relative z-10 w-64 md:w-80 drop-shadow-2xl"
+              className="animate-float relative z-10 w-64 md:w-80 drop-shadow-2xl object-contain"
             />
             {/* Floating badges */}
             <div
@@ -645,7 +657,7 @@ export default function App() {
                 <div className="card-hover bg-white rounded-2xl p-6 shadow-card text-center border border-border">
                   <div className="text-5xl mb-4">{p.icon}</div>
                   <h3
-                    className="font-display text-lg font-bold mb-2"
+                    className="font-display text-lg font-extrabold mb-2"
                     style={{ color: "var(--brand-green-dark)" }}
                   >
                     {p.title}
@@ -737,6 +749,7 @@ export default function App() {
                 <img
                   src="/assets/generated/fungus-killer-product-new.dim_600x700.png"
                   alt="Fungus Infection Cream"
+                  loading="lazy"
                   className="animate-float w-48 md:w-56 relative z-10 drop-shadow-2xl"
                 />
               </div>
@@ -825,7 +838,7 @@ export default function App() {
                     <b.icon className={`w-7 h-7 ${b.color}`} />
                   </div>
                   <h3
-                    className="font-display text-lg font-bold mb-2"
+                    className="font-display text-lg font-extrabold mb-2"
                     style={{ color: "var(--brand-green-dark)" }}
                   >
                     {b.title}
@@ -882,7 +895,7 @@ export default function App() {
                     {step.num}
                   </div>
                   <h3
-                    className="font-display text-xl font-bold mb-3"
+                    className="font-display text-xl font-extrabold mb-3"
                     style={{ color: "var(--brand-gold)" }}
                   >
                     {step.title}
@@ -931,7 +944,8 @@ export default function App() {
                 <img
                   src="/assets/generated/before-after-result.dim_800x450.jpg"
                   alt="Before and After using Fungus Killer Cream"
-                  className="w-full object-cover"
+                  className="w-full object-cover h-64 md:h-80"
+                  loading="lazy"
                 />
               </div>
               <div className="grid grid-cols-2 gap-6 mt-6">
@@ -939,7 +953,7 @@ export default function App() {
                   className="p-5 rounded-2xl border-2 border-red-200"
                   style={{ background: "oklch(97 0.02 27)" }}
                 >
-                  <p className="font-bold text-red-700 text-lg mb-3 text-center">
+                  <p className="font-extrabold text-red-700 text-lg mb-3 text-center">
                     ❌ पहले (Before)
                   </p>
                   <ul className="text-sm space-y-2">
@@ -969,7 +983,7 @@ export default function App() {
                   className="p-5 rounded-2xl border-2 border-green-200"
                   style={{ background: "oklch(97 0.02 148)" }}
                 >
-                  <p className="font-bold text-green-700 text-lg mb-3 text-center">
+                  <p className="font-extrabold text-green-700 text-lg mb-3 text-center">
                     ✅ बाद में (After)
                   </p>
                   <ul className="text-sm space-y-2">
@@ -1003,7 +1017,7 @@ export default function App() {
                   border: "1px solid oklch(75 0.15 85)",
                 }}
               >
-                <p className="font-bold text-amber-800">
+                <p className="font-extrabold text-amber-800">
                   ⏱️ सिर्फ 7 दिनों में दिखने लगता है फर्क!
                 </p>
               </div>
@@ -1207,7 +1221,9 @@ export default function App() {
                 <h2 className="font-display text-3xl md:text-4xl font-bold">
                   अभी ऑर्डर करें
                   <br />
-                  <span className="shimmer-text">घर बैठे डिलीवरी पाएं</span>
+                  <span className="shimmer-text font-extrabold">
+                    घर बैठे डिलीवरी पाएं
+                  </span>
                 </h2>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -1217,7 +1233,9 @@ export default function App() {
                     >
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-red-100">Cash on Delivery उपलब्ध</p>
+                    <p className="text-red-100 font-bold">
+                      Cash on Delivery उपलब्ध
+                    </p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div
@@ -1226,7 +1244,9 @@ export default function App() {
                     >
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-red-100">Free Delivery सम्पूर्ण भारत में</p>
+                    <p className="text-red-100 font-bold">
+                      Free Delivery सम्पूर्ण भारत में
+                    </p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div
@@ -1235,7 +1255,7 @@ export default function App() {
                     >
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-red-100">7 दिन मनी बैक गारंटी</p>
+                    <p className="text-red-100 font-bold">7 दिन मनी बैक गारंटी</p>
                   </div>
                 </div>
                 {/* Price */}
@@ -1249,7 +1269,7 @@ export default function App() {
                   <p className="text-red-300 text-sm mb-1">विशेष ऑफर मूल्य</p>
                   <div className="flex items-baseline gap-3">
                     <span
-                      className="font-display text-5xl font-bold"
+                      className="font-display text-5xl font-extrabold"
                       style={{ color: "var(--brand-gold)" }}
                     >
                       ₹275
@@ -1258,6 +1278,7 @@ export default function App() {
                       ₹549
                     </span>
                     <Badge
+                      className="font-extrabold"
                       style={{
                         background: "var(--brand-gold-dark)",
                         color: "white",

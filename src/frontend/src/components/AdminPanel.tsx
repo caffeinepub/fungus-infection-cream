@@ -21,8 +21,10 @@ import {
   CheckCircle,
   Eye,
   EyeOff,
+  Loader2,
   Lock,
   LogOut,
+  MessageCircle,
   Package,
   ShieldCheck,
   ShoppingCart,
@@ -261,6 +263,36 @@ export function AdminPanel({ onBack }: AdminPanelProps) {
             </CardContent>
           </Card>
         </div>
+
+        {/* Telegram Notification Status */}
+        <Card className="mb-8 border border-blue-100" data-ocid="admin.card">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{ background: "oklch(55 0.18 230 / 0.12)" }}
+                >
+                  <MessageCircle className="w-5 h-5 text-blue-500" />
+                </div>
+                <CardTitle className="font-display text-lg text-gray-800">
+                  Telegram सूचना
+                </CardTitle>
+              </div>
+              <Badge className="bg-green-100 text-green-700 border border-green-300 px-3 py-1">
+                <CheckCircle className="w-3.5 h-3.5 mr-1 inline" />
+                सक्रिय है
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600">
+              Telegram notifications चालू हैं। हर नए ऑर्डर पर आपके Telegram पर
+              automatically message आएगा जिसमें नाम, फोन, पता, PIN, मात्रा और कीमत
+              होगी।
+            </p>
+          </CardContent>
+        </Card>
 
         {/* Orders Table */}
         <Card data-ocid="admin.table">
