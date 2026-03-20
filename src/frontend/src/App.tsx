@@ -247,6 +247,13 @@ export default function App() {
     const timer = setTimeout(() => setIsLoading(false), 2500);
     return () => clearTimeout(timer);
   }, []);
+  const [appBannerDismissed, setAppBannerDismissed] = useState<boolean>(() => {
+    return localStorage.getItem("appBannerDismissed") === "true";
+  });
+  const dismissBanner = () => {
+    localStorage.setItem("appBannerDismissed", "true");
+    setAppBannerDismissed(true);
+  };
   const scrolled = useScrolled();
   const [menuOpen, setMenuOpen] = useState(false);
   const [view, setView] = useState<"main" | "admin">("main");
@@ -328,9 +335,55 @@ export default function App() {
         <div className="min-h-screen font-body bg-background">
           <Toaster richColors position="top-center" />
 
+          {/* ====== APP INSTALL BANNER ====== */}
+          {!appBannerDismissed && (
+            <div
+              className="fixed top-0 left-0 right-0 z-[70] px-3 py-2"
+              style={{
+                background:
+                  "linear-gradient(135deg, #0f0f0f 0%, #1a1208 50%, #0f0f0f 100%)",
+                borderBottom: "2px solid oklch(60 0.14 85)",
+              }}
+            >
+              <div className="container mx-auto flex items-center justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="font-extrabold text-sm leading-tight mb-1"
+                    style={{ color: "#fde047" }}
+                  >
+                    📲 इस Website को App की तरह Download करें!
+                  </p>
+                  <div
+                    className="flex flex-wrap gap-x-4 gap-y-0.5 text-[10px] font-medium"
+                    style={{ color: "#d1d5db" }}
+                  >
+                    <span>
+                      <span style={{ color: "#86efac" }}>🤖 Android:</span>{" "}
+                      Chrome में खोलें → Menu (⋮) → &ldquo;Add to Home Screen&rdquo;
+                    </span>
+                    <span>
+                      <span style={{ color: "#93c5fd" }}>🍎 iPhone:</span>{" "}
+                      Safari में खोलें → Share (□↑) → &ldquo;Add to Home
+                      Screen&rdquo;
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-ocid="app_banner.close_button"
+                  onClick={dismissBanner}
+                  className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors ml-2"
+                  aria-label="बंद करें"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* ====== TOP ANNOUNCEMENT BAR ====== */}
           <div
-            className="fixed top-0 left-0 right-0 z-[60] overflow-hidden"
+            className={`fixed left-0 right-0 z-[60] overflow-hidden transition-all duration-300 ${appBannerDismissed ? "top-0" : "top-[68px]"}`}
             style={{
               background:
                 "linear-gradient(90deg, #166534 0%, #15803d 30%, #ca8a04 60%, #166534 100%)",
@@ -364,9 +417,9 @@ export default function App() {
 
           {/* ====== NAVIGATION ====== */}
           <nav
-            className={`fixed top-8 left-0 right-0 z-50 transition-all duration-300 ${
+            className={`fixed left-0 right-0 z-50 transition-all duration-300 ${appBannerDismissed ? "top-9" : "top-[106px]"} ${
               scrolled
-                ? "bg-white/95 backdrop-blur-md shadow-md border-b border-border"
+                ? "bg-gray-900/95 backdrop-blur-md shadow-md border-b border-border"
                 : "bg-transparent"
             }`}
           >
@@ -404,7 +457,7 @@ export default function App() {
                     href={link.href}
                     data-ocid="nav.link"
                     className="text-sm font-medium transition-colors hover:text-primary"
-                    style={{ color: scrolled ? "oklch(25 0.05 148)" : "white" }}
+                    style={{ color: "white" }}
                   >
                     {link.label}
                   </a>
@@ -429,7 +482,7 @@ export default function App() {
                   type="button"
                   className="md:hidden p-2 rounded-lg"
                   onClick={() => setMenuOpen(!menuOpen)}
-                  style={{ color: scrolled ? "oklch(25 0.05 148)" : "white" }}
+                  style={{ color: "white" }}
                 >
                   {menuOpen ? (
                     <X className="w-6 h-6" />
@@ -442,14 +495,14 @@ export default function App() {
 
             {/* Mobile Menu */}
             {menuOpen && (
-              <div className="md:hidden bg-white border-t border-border px-4 py-4 flex flex-col gap-3">
+              <div className="md:hidden bg-gray-900 border-t border-border px-4 py-4 flex flex-col gap-3">
                 {navLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
                     data-ocid="nav.link"
                     className="py-2 text-sm font-medium border-b border-border last:border-0"
-                    style={{ color: "var(--brand-green)" }}
+                    style={{ color: "var(--brand-green-light)" }}
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
@@ -591,13 +644,13 @@ export default function App() {
                 />
                 {/* Floating badges */}
                 <div
-                  className="absolute top-6 right-4 bg-white rounded-xl px-3 py-2 shadow-lg text-xs font-bold"
+                  className="absolute top-6 right-4 bg-gray-800 rounded-xl px-3 py-2 shadow-lg text-xs font-bold"
                   style={{ color: "var(--brand-green)" }}
                 >
                   ✅ Clinically Tested
                 </div>
                 <div
-                  className="absolute bottom-8 left-0 bg-white rounded-xl px-3 py-2 shadow-lg text-xs font-bold"
+                  className="absolute bottom-8 left-0 bg-gray-800 rounded-xl px-3 py-2 shadow-lg text-xs font-bold"
                   style={{ color: "var(--brand-gold-dark)" }}
                 >
                   ⚡ 48hr Relief
@@ -616,7 +669,7 @@ export default function App() {
               >
                 <path
                   d="M0 40C360 80 1080 0 1440 40V80H0V40Z"
-                  fill="oklch(97 0.01 95)"
+                  fill="oklch(12 0.03 148)"
                 />
               </svg>
             </div>
@@ -678,7 +731,7 @@ export default function App() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {PROBLEMS.map((p) => (
                   <AnimatedSection key={p.title}>
-                    <div className="card-hover bg-white rounded-2xl p-6 shadow-card text-center border border-border">
+                    <div className="card-hover bg-card rounded-2xl p-6 shadow-card text-center border border-border">
                       <div className="text-5xl mb-4">{p.icon}</div>
                       <h3
                         className="font-display text-lg font-extrabold mb-2"
@@ -739,7 +792,7 @@ export default function App() {
                     },
                   ].map(({ icon: Icon, label, desc }) => (
                     <AnimatedSection key={label}>
-                      <div className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-card border border-border">
+                      <div className="flex items-center gap-4 p-4 bg-card rounded-xl shadow-card border border-border">
                         <div
                           className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                           style={{ background: "oklch(35 0.12 148 / 0.1)" }}
@@ -801,7 +854,7 @@ export default function App() {
                     },
                   ].map(({ icon: Icon, label, desc }) => (
                     <AnimatedSection key={label}>
-                      <div className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-card border border-border">
+                      <div className="flex items-center gap-4 p-4 bg-card rounded-xl shadow-card border border-border">
                         <div
                           className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                           style={{ background: "oklch(75 0.14 85 / 0.15)" }}
@@ -858,10 +911,10 @@ export default function App() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {BENEFITS.map((b) => (
                   <AnimatedSection key={b.title}>
-                    <div className="card-hover bg-white rounded-2xl p-6 shadow-card border border-border h-full">
+                    <div className="card-hover bg-card rounded-2xl p-6 shadow-card border border-border h-full">
                       <div
                         className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
-                        style={{ background: "oklch(97 0.015 148)" }}
+                        style={{ background: "oklch(28 0.06 148)" }}
                       >
                         <b.icon className={`w-7 h-7 ${b.color}`} />
                       </div>
@@ -982,7 +1035,7 @@ export default function App() {
                   <div className="grid grid-cols-2 gap-6 mt-6">
                     <div
                       className="p-5 rounded-2xl border-2 border-red-200"
-                      style={{ background: "oklch(97 0.02 27)" }}
+                      style={{ background: "oklch(22 0.07 27)" }}
                     >
                       <p className="font-extrabold text-red-700 text-lg mb-3 text-center">
                         ❌ पहले (Before)
@@ -1012,7 +1065,7 @@ export default function App() {
                     </div>
                     <div
                       className="p-5 rounded-2xl border-2 border-green-200"
-                      style={{ background: "oklch(97 0.02 148)" }}
+                      style={{ background: "oklch(22 0.07 148)" }}
                     >
                       <p className="font-extrabold text-green-700 text-lg mb-3 text-center">
                         ✅ बाद में (After)
@@ -1085,7 +1138,7 @@ export default function App() {
               <div className="grid md:grid-cols-3 gap-6">
                 {TESTIMONIALS.map((t) => (
                   <AnimatedSection key={t.name}>
-                    <div className="card-hover bg-white rounded-2xl p-6 shadow-card border border-border h-full flex flex-col">
+                    <div className="card-hover bg-card rounded-2xl p-6 shadow-card border border-border h-full flex flex-col">
                       <div className="flex items-center gap-4 mb-4">
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${t.color}`}
@@ -1211,7 +1264,7 @@ export default function App() {
                       key={faq.q.slice(0, 20)}
                       value={`item-${i + 1}`}
                       data-ocid={`faq.item.${i + 1}`}
-                      className="bg-white rounded-xl border border-border px-4 shadow-card"
+                      className="bg-card rounded-xl border border-border px-4 shadow-card"
                     >
                       <AccordionTrigger
                         className="font-semibold text-sm py-4 text-left hover:no-underline"
@@ -1329,7 +1382,7 @@ export default function App() {
 
                 {/* Order Form */}
                 <AnimatedSection>
-                  <div className="bg-white rounded-2xl p-8 shadow-2xl">
+                  <div className="bg-card rounded-2xl p-8 shadow-2xl">
                     <h3
                       className="font-display text-xl font-bold mb-6"
                       style={{ color: "var(--brand-green-dark)" }}
@@ -1341,15 +1394,15 @@ export default function App() {
                         data-ocid="order.loading_state"
                         className="mb-5 rounded-xl p-4 text-center space-y-2 border-2"
                         style={{
-                          background: "oklch(97 0.03 80)",
+                          background: "oklch(22 0.07 80)",
                           borderColor: "#f59e0b",
                         }}
                       >
-                        <div className="flex items-center justify-center gap-2 text-amber-700 font-bold text-base">
+                        <div className="flex items-center justify-center gap-2 text-amber-400 font-bold text-base">
                           <Clock className="w-5 h-5 animate-spin" />
                           आपका ऑर्डर चल रहा है
                         </div>
-                        <p className="text-sm text-amber-800">
+                        <p className="text-sm text-amber-300">
                           आपका ऑर्डर रजिस्टर हो गया है और अभी{" "}
                           <strong>प्रोसेस हो रहा है</strong>। जब ऑर्डर डिलीवर हो
                           जाएगा, तब आप दोबारा ऑर्डर कर पाएंगे।
@@ -1363,15 +1416,15 @@ export default function App() {
                           data-ocid="order.success_state"
                           className="mb-5 rounded-xl p-4 text-center space-y-2 border-2"
                           style={{
-                            background: "oklch(97 0.05 148)",
+                            background: "oklch(22 0.09 148)",
                             borderColor: "#16a34a",
                           }}
                         >
-                          <div className="flex items-center justify-center gap-2 text-green-700 font-bold text-base">
+                          <div className="flex items-center justify-center gap-2 text-green-400 font-bold text-base">
                             <CheckCircle className="w-5 h-5" />
                             अब आप नया ऑर्डर कर सकते हैं!
                           </div>
-                          <p className="text-sm text-green-800">
+                          <p className="text-sm text-green-300">
                             Admin ने आपका पिछला ऑर्डर पूरा कर दिया है। नीचे फॉर्म भरकर
                             नया ऑर्डर करें।
                           </p>

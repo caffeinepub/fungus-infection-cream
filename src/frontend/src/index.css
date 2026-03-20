@@ -18,25 +18,25 @@
 
 @layer base {
   :root {
-    /* Deep Forest Green + Cream + Gold palette */
-    --background: 97 0.01 95;
-    --foreground: 25 0.05 160;
-    --card: 98 0.005 90;
-    --card-foreground: 25 0.05 160;
-    --popover: 98 0.005 90;
-    --popover-foreground: 25 0.05 160;
+    /* DARK THEME — Deep Dark + Green + Gold palette */
+    --background: 12 0.03 148;
+    --foreground: 94 0.01 90;
+    --card: 17 0.04 148;
+    --card-foreground: 94 0.01 90;
+    --popover: 17 0.04 148;
+    --popover-foreground: 94 0.01 90;
     --primary: 38 0.22 27;
     --primary-foreground: 98 0.005 90;
-    --secondary: 88 0.03 27;
-    --secondary-foreground: 25 0.05 160;
-    --muted: 93 0.015 110;
-    --muted-foreground: 55 0.04 160;
+    --secondary: 22 0.05 148;
+    --secondary-foreground: 85 0.02 90;
+    --muted: 20 0.03 148;
+    --muted-foreground: 68 0.03 90;
     --accent: 80 0.18 85;
     --accent-foreground: 15 0.06 30;
     --destructive: 55 0.25 27;
     --destructive-foreground: 98 0.005 90;
-    --border: 88 0.03 150;
-    --input: 88 0.03 150;
+    --border: 25 0.05 148;
+    --input: 25 0.05 148;
     --ring: 38 0.22 27;
     --radius: 0.75rem;
     --chart-1: 35 0.12 148;
@@ -44,19 +44,20 @@
     --chart-3: 65 0.15 160;
     --chart-4: 75 0.12 200;
     --chart-5: 55 0.25 27;
-    --sidebar: 97 0.01 95;
-    --sidebar-foreground: 25 0.05 160;
+    --sidebar: 12 0.03 148;
+    --sidebar-foreground: 94 0.01 90;
     --sidebar-primary: 38 0.22 27;
     --sidebar-primary-foreground: 98 0.005 90;
-    --sidebar-accent: 93 0.015 110;
-    --sidebar-accent-foreground: 25 0.05 160;
-    --sidebar-border: 88 0.03 150;
+    --sidebar-accent: 20 0.03 148;
+    --sidebar-accent-foreground: 94 0.01 90;
+    --sidebar-border: 25 0.05 148;
     --sidebar-ring: 35 0.12 148;
 
     /* Custom brand tokens */
-    --brand-green: oklch(38 0.22 27);
-    --brand-green-dark: oklch(18 0.12 27);
-    --brand-green-light: oklch(52 0.22 27);
+    --brand-green: oklch(52 0.2 142);
+    --brand-green-dark: oklch(62 0.2 142);
+    --brand-green-deep: oklch(18 0.12 27);
+    --brand-green-light: oklch(72 0.2 142);
     --brand-gold: oklch(75 0.14 85);
     --brand-gold-dark: oklch(60 0.14 85);
     --brand-cream: oklch(97 0.015 90);
@@ -165,12 +166,12 @@
     ellipse at 60% 50%,
     oklch(38 0.22 27 / 0.95) 0%,
     oklch(18 0.12 27) 60%,
-    oklch(10 0.08 27) 100%
+    oklch(8 0.06 27) 100%
   );
 }
 
 .section-alt {
-  background: oklch(97 0.01 27 / 0.5);
+  background: oklch(20 0.04 148 / 0.9);
 }
 
 .gold-border {
@@ -183,7 +184,7 @@
 
 .card-hover:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px oklch(38 0.22 27 / 0.15);
+  box-shadow: 0 20px 40px oklch(38 0.22 27 / 0.25);
 }
 
 .trust-badge {
@@ -203,12 +204,12 @@ html {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--brand-cream);
+  background: oklch(15 0.03 148);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--brand-green);
+  background: var(--brand-green-deep);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-green-dark);
+  background: oklch(25 0.1 142);
 }
